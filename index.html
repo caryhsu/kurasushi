@@ -10,6 +10,10 @@
   
   // Video
   let video;
+  
+  let switchFlag = false;
+  let switchBtn;
+
   let flippedVideo;
   // To store the classification
   let label = "";
@@ -29,6 +33,11 @@
     flippedVideo = ml5.flipImage(video);
     // Start classifying
     classifyVideo();
+	
+    switchBtn = createButton('Switch Camera');
+    switchBtn.position(19, 19);
+    switchBtn.mousePressed(switchCamera);
+	
   }
 
   function draw() {
@@ -64,4 +73,38 @@
     // Classifiy again!
     classifyVideo();
   }
+  
+function switchCamera()
+{
+  switchFlag = !switchFlag;
+  if(switchFlag==true)
+  {
+   video.remove();
+   options = {
+     video: {
+        
+         facingMode: {
+          exact: "environment"
+        }
+     }
+   };
+
+  }
+  else
+  {
+   video.remove();
+   options = {
+     video: {
+        
+         facingMode: {
+          exact: "user"
+        }
+     }
+   };
+    
+  }
+  video = createCapture(options);
+  
+}
+  
 </script>
