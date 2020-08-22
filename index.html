@@ -24,6 +24,12 @@
   }
 
   function setup() {
+  VIDEO = {
+    audio: false,
+    video: {
+      facingMode: "user"
+    }
+  };
     createCanvas(320, 260);
     // Create the video
     video = createCapture(VIDEO);
@@ -34,9 +40,9 @@
     // Start classifying
     classifyVideo();
 	
-    switchBtn = createButton('Switch Camera');
-    switchBtn.position(19, 19);
-    switchBtn.mousePressed(switchCamera);
+//    switchBtn = createButton('Switch Camera...');
+//    switchBtn.position(10, 10);
+//    switchBtn.mousePressed(switchCamera);
 	
   }
 
