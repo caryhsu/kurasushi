@@ -1,1 +1,1 @@
-{"tfjsVersion":"1.3.1","tmVersion":"2.2.2","packageVersion":"0.8.4","packageName":"@teachablemachine/image","timeStamp":"2020-09-05T01:25:44.828Z","userMetadata":{},"modelName":"tm-my-image-model","labels":["叉子","口罩","手機","杯子","筆"]}
+{"tfjsVersion":"1.3.1","tmVersion":"2.2.2","packageVersion":"0.8.4","packageName":"@teachablemachine/image","timeStamp":"2020-09-14T08:24:49.464Z","userMetadata":{},"modelName":"tm-my-image-model","labels":["口罩","水果刀","立體三角尺","免洗竹筷","杯子","柚子","美工刀","筆","橡皮筋","鐵叉子","鐵湯匙"]}
