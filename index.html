@@ -1,4 +1,4 @@
-<div>6:桌上物品辨識</div>
+<div>桌上物品辨識</div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/p5.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/addons/p5.dom.min.js"></script>
 <script src="https://unpkg.com/ml5@latest/dist/ml5.min.js"></script>
@@ -10,48 +10,46 @@
   
   // Video
   let video;
-  let img;
   
+  let switchFlag = false;
+  let switchBtn;
+
   let flippedVideo;
   // To store the classification
   let label = "";
 
   // Load the model first
   function preload() {
-	console.log('load image...');
-	img = loadImage('./image/00.jpg');
-	console.log('load image complete');
     classifier = ml5.imageClassifier(imageModelURL + 'model.json');
   }
 
   function setup() {
-//  VIDEO = {
-//    audio: false,
-//    video: {
-//      facingMode: "environment"
-//    }
-//  };
+  VIDEO = {
+    audio: false,
+    video: {
+      facingMode: "environment"
+    }
+  };
+  // windowWidth, windowHeight
     createCanvas(320, 260);
-  loadImage('image/00.jpg', img => {
-	image(img, 0, 0);
-    classifyVideo();
-  });	
     // Create the video
-//    video = createCapture(VIDEO);
-//    video.size(320, 240);
-//    video.hide();
+    video = createCapture(VIDEO);
+    video.size(320, 240);
+    video.hide();
 
-//    flippedVideo = ml5.flipImage(video);
+    flippedVideo = ml5.flipImage(video);
     // Start classifying
+    classifyVideo();
+//    switchBtn = createButton('Switch Camera...');
+//    switchBtn.position(10, 10);
+//    switchBtn.mousePressed(switchCamera);
+	
   }
 
   function draw() {
     background(0);
-	flippedVideo = img;
     // Draw the video
-//	console.log('before draw image');
-//    image(flippedVideo, 0, 0);
-//	console.log('after draw image');
+    image(flippedVideo, 0, 0);
 
     // Draw the label
     fill(255);
@@ -62,9 +60,10 @@
 
   // Get a prediction for the current video frame
   function classifyVideo() {
-//    flippedVideo = ml5.flipImage(video)
-    classifier.classify(img, gotResult);
-//   flippedVideo.remove();
+    flippedVideo = ml5.flipImage(video)
+    classifier.classify(flippedVideo, gotResult);
+    flippedVideo.remove();
+
   }
 
   // When we get a result
@@ -80,4 +79,38 @@
     // Classifiy again!
     classifyVideo();
   }
+  
+function switchCamera()
+{
+  switchFlag = !switchFlag;
+  if(switchFlag==true)
+  {
+   video.remove();
+   options = {
+     video: {
+        
+         facingMode: {
+          exact: "environment"
+        }
+     }
+   };
+
+  }
+  else
+  {
+   video.remove();
+   options = {
+     video: {
+        
+         facingMode: {
+          exact: "user"
+        }
+     }
+   };
+    
+  }
+  video = createCapture(options);
+  
+}
+  
 </script>
