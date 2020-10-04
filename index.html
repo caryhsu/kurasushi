@@ -1,8 +1,12 @@
-<div>藏壽司菜單辨識-no-version-az-model</div>
+<div>藏壽司菜單辨識-get-result</div>
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs/dist/tf.min.js"></script>
 <script src="https://unpkg.com/@microsoft/customvision-tfjs"></script>
+
+<img id="image" src="image/00.jpg" />
+
 <script type="text/javascript">
 	let model = new cvstfjs.ClassificationModel();
-	model.loadModelAsync('./az_model/model.json');  
+	model.loadModelAsync('./az_model/model.json'); 
+	const image = document.getElementById('image');
+	const result = await model.executeAsync(image);	
 </script>
-<img id="image" src="image/00.jpg" />
