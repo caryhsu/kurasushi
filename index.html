@@ -27,7 +27,7 @@
 				const result = await model.executeAsync(document.getElementById('image_view'));
 				document.getElementById('result_view').innerHTML = result[0].map((x, i) => `Label ${i}: ${x}`).join("<br />");
 				console.log(result);
-				console.log(indexOfMax(result[0]]));
+				console.log(indexOfMax(result[0]));
 			}
 			function indexOfMax(arr) {
 				if (arr.length === 0) {
