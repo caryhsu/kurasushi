@@ -1,8 +1,8 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-		<title>Custom Vision classification sample2</title>
-		<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@2.1.0/dist/tf.min.js"></script>
+		<title>Custom Vision classification sample240</title>
+		<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@2.4.0/dist/tf.min.js"></script>
 		<script src="https://unpkg.com/@microsoft/customvision-tfjs"></script>
 	</head>
 	<body>
@@ -27,6 +27,24 @@
 				const result = await model.executeAsync(document.getElementById('image_view'));
 				document.getElementById('result_view').innerHTML = result[0].map((x, i) => `Label ${i}: ${x}`).join("<br />");
 				console.log(result);
+				console.log(indexOfMax(result[0]]));
+			}
+			function indexOfMax(arr) {
+				if (arr.length === 0) {
+					return -1;
+				}
+
+				var max = arr[0];
+				var maxIndex = 0;
+
+				for (var i = 1; i < arr.length; i++) {
+					if (arr[i] > max) {
+						maxIndex = i;
+						max = arr[i];
+					}
+				}
+
+				return maxIndex;
 			}
 		</script>
 	</body>
