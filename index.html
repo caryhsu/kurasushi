@@ -1,4 +1,4 @@
-<div>藏壽司菜單辨識-get-result</div>
+<div>藏壽司菜單辨識-console.log-result</div>
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs/dist/tf.min.js"></script>
 <script src="https://unpkg.com/@microsoft/customvision-tfjs"></script>
 
@@ -8,5 +8,6 @@
 	let model = new cvstfjs.ClassificationModel();
 	model.loadModelAsync('./az_model/model.json'); 
 	const image = document.getElementById('image');
-	const result = await model.executeAsync(image);	
+	const result = model.executeAsync(image);
+	console.log(result);
 </script>
