@@ -6,7 +6,7 @@
 		<script src="https://unpkg.com/@microsoft/customvision-tfjs"></script>
 	</head>
 	<body>
-		<div>藏壽司菜單辨識-exec</div>
+		<div>藏壽司菜單辨識</div>
 		<input id="image_file" type="file" onChange="load(event)" />
 		<img id="image_view" onLoad="run()" />
 		<div id="result_view" />
@@ -24,8 +24,7 @@
 			async function run() {
 				const model = new cvstfjs.ClassificationModel();
 				await model.loadModelAsync('az_model/model.json');
-//				const result = await model.executeAsync(document.getElementById('image_view'));
-				const result = model.execute(document.getElementById('image_view'));
+				const result = await model.executeAsync(document.getElementById('image_view'));
 				document.getElementById('result_view').innerHTML = result[0].map((x, i) => `Label ${i}: ${x}`).join("<br />");
 				console.log(result);
 				console.log(indexOfMax(result[0]));
