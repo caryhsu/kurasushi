@@ -5,19 +5,25 @@
 		<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@2.4.0/dist/tf.min.js"></script>
 		<script type="text/javascript" src="https://unpkg.com/webcam-easy/dist/webcam-easy.min.js"></script>
 		<script src="https://unpkg.com/@microsoft/customvision-tfjs"></script>
+		<style>
+video {
+    object-fit: fill;
+}
+		</style>
 	</head>
 	<body onload="init();">
-		<div>藏壽司菜單辨識</div>
-		<!--
-		<button onclick="snap()">Snap</button>
-		-->
-		<video id="webcam" autoplay playsinline width="640" height="480"></video>
+		<div>
+			<span>藏壽司菜單辨識:</span>
+			<span id="result_view" />
+		</div>
+		<video id="webcam" autoplay playsinline ></video>
 		<canvas style="display:none;" id="canvas" class="d-none"></canvas>
 		<audio style="display:none;" id="snapSound" preload = "auto"></audio>		
 		<input style="display:none;" id="image_file" type="file" onChange="load(event)" />
 		<img style="display:none;" id="image_view" onLoad="run()" />
+		<!--
 		<div id="result_view" />
-		
+		-->
 		<script>
 			var webcamElement;
 			var canvasElement;
