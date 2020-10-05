@@ -6,14 +6,14 @@
 		<script src="https://unpkg.com/@microsoft/customvision-tfjs"></script>
 	</head>
 	<body>
-		<div>藏壽司菜單辨識</div>
+		<div>藏壽司菜單辨識-labels</div>
 		<input id="image_file" type="file" onChange="load(event)" />
 		<img id="image_view" onLoad="run()" />
 		<div id="result_view" />
 		
 		<script>
 		
-			var items = ['卡滋紅蔥酥胡麻鮮蝦', '厚切鯖魚', '大生鮮蝦(一貫)', '奶油乳酪鮭魚', '柚香醃漬鮪魚', '槍烏賊', '洋蔥鮭魚', '炙烤照燒長鰭鮪魚', '熟成鮪魚', '燒炙鮭魚肚', '玉子燒', '甜蝦', '生鮭魚(一貫)', '蒲燒鮭魚(一貫)', '豬肉鹽味蔥花', '酪梨鮮蝦', '青森扇貝', '香烤鯖魚', '香煎芝麻扇貝', '鮭魚肚', '鮮蝦'];
+			var labels = ['卡滋紅蔥酥胡麻鮮蝦', '厚切鯖魚', '大生鮮蝦(一貫)', '奶油乳酪鮭魚', '柚香醃漬鮪魚', '槍烏賊', '洋蔥鮭魚', '炙烤照燒長鰭鮪魚', '熟成鮪魚', '燒炙鮭魚肚', '玉子燒', '甜蝦', '生鮭魚(一貫)', '蒲燒鮭魚(一貫)', '豬肉鹽味蔥花', '酪梨鮮蝦', '青森扇貝', '香烤鯖魚', '香煎芝麻扇貝', '鮭魚肚', '鮮蝦'];
 			
 			function load(event) {
 				const reader = new FileReader();
@@ -31,7 +31,7 @@
 				document.getElementById('result_view').innerHTML = result[0].map((x, i) => `Label ${i}: ${x}`).join("<br />");
 				console.log(result);
 				index = indexOfMax(result[0]);
-				console.log(items[index);
+				console.log(labels[index);
 			}
 			function indexOfMax(arr) {
 				if (arr.length === 0) {
