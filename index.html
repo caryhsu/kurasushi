@@ -3,17 +3,48 @@
 		<meta charset="utf-8">
 		<title>Custom Vision classification sample</title>
 		<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@2.4.0/dist/tf.min.js"></script>
+		<script type="text/javascript" src="https://unpkg.com/webcam-easy/dist/webcam-easy.min.js"></script>
 		<script src="https://unpkg.com/@microsoft/customvision-tfjs"></script>
 	</head>
-	<body>
-		<div>藏壽司菜單辨識-labels</div>
-		<input id="image_file" type="file" onChange="load(event)" />
-		<img id="image_view" onLoad="run()" />
+	<body onload="init();">
+		<div>藏壽司菜單辨識</div>
+		<!--
+		<button onclick="snap()">Snap</button>
+		-->
+		<video id="webcam" autoplay playsinline width="640" height="480"></video>
+		<canvas style="display:none;" id="canvas" class="d-none"></canvas>
+		<audio style="display:none;" id="snapSound" preload = "auto"></audio>		
+		<input style="display:none;" id="image_file" type="file" onChange="load(event)" />
+		<img style="display:none;" id="image_view" onLoad="run()" />
 		<div id="result_view" />
 		
 		<script>
-		
+			var webcamElement;
+			var canvasElement;
+			var snapSoundElement;
+			var webcam;
 			var labels = ['卡滋紅蔥酥胡麻鮮蝦', '厚切鯖魚', '大生鮮蝦(一貫)', '奶油乳酪鮭魚', '柚香醃漬鮪魚', '槍烏賊', '洋蔥鮭魚', '炙烤照燒長鰭鮪魚', '熟成鮪魚', '燒炙鮭魚肚', '玉子燒', '甜蝦', '生鮭魚(一貫)', '蒲燒鮭魚(一貫)', '豬肉鹽味蔥花', '酪梨鮮蝦', '青森扇貝', '香烤鯖魚', '香煎芝麻扇貝', '鮭魚肚', '鮮蝦'];
+			
+			function init() {
+				webcamElement = document.getElementById('webcam');
+				canvasElement = document.getElementById('canvas');
+				snapSoundElement = document.getElementById('snapSound');				
+				webcam = new Webcam(webcamElement, 'enviroment', canvasElement, snapSoundElement);
+				webcam.start()
+				   .then(result =>{
+					  console.log("webcam started");
+					  snap();
+				   })
+				   .catch(err => {
+					   console.log(err);
+				   });
+			}
+			
+			function snap() {
+				let picture = webcam.snap();
+				const image_view = document.getElementById('image_view');
+				image_view.src = picture;
+			}
 			
 			function load(event) {
 				const reader = new FileReader();
@@ -28,11 +59,14 @@
 				const model = new cvstfjs.ClassificationModel();
 				await model.loadModelAsync('az_model/model.json');
 				const result = await model.executeAsync(document.getElementById('image_view'));
-				document.getElementById('result_view').innerHTML = result[0].map((x, i) => `Label ${i}: ${x}`).join("<br />");
+				// document.getElementById('result_view').innerHTML = result[0].map((x, i) => `Label ${i}: ${x}`).join("<br />");
 				console.log(result);
 				index = indexOfMax(result[0]);
-				console.log(labels[index);
+				console.log(labels[index]);
+				document.getElementById('result_view').innerHTML = labels[index];
+				snap();
 			}
+			
 			function indexOfMax(arr) {
 				if (arr.length === 0) {
 					return -1;
