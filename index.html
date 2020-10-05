@@ -23,13 +23,13 @@
 			var canvasElement;
 			var snapSoundElement;
 			var webcam;
-			var labels = ['卡滋紅蔥酥胡麻鮮蝦', '厚切鯖魚', '大生鮮蝦(一貫)', '奶油乳酪鮭魚', '柚香醃漬鮪魚', '槍烏賊', '洋蔥鮭魚', '炙烤照燒長鰭鮪魚', '熟成鮪魚', '燒炙鮭魚肚', '玉子燒', '甜蝦', '生鮭魚(一貫)', '蒲燒鮭魚(一貫)', '豬肉鹽味蔥花', '酪梨鮮蝦', '青森扇貝', '香烤鯖魚', '香煎芝麻扇貝', '鮭魚肚', '鮮蝦'];
+			var labels;
 			
 			function init() {
 				webcamElement = document.getElementById('webcam');
 				canvasElement = document.getElementById('canvas');
 				snapSoundElement = document.getElementById('snapSound');				
-				webcam = new Webcam(webcamElement, 'enviroment', canvasElement, snapSoundElement);
+				webcam = new Webcam(webcamElement, 'environment', canvasElement, snapSoundElement);
 				webcam.start()
 				   .then(result =>{
 					  console.log("webcam started");
@@ -38,6 +38,14 @@
 				   .catch(err => {
 					   console.log(err);
 				   });
+				   
+				fetch('az_model/labels.txt').then(function(response) {
+					return response.text().then(function(text) {
+						console.log(text);
+						labels = text.split("\n");
+						console.log(labels);
+					});
+				  });
 			}
 			
 			function snap() {
