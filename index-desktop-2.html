@@ -1,0 +1,96 @@
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Custom Vision classification sample</title>
+		<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@2.4.0/dist/tf.min.js"></script>
+		<script type="text/javascript" src="https://unpkg.com/webcam-easy/dist/webcam-easy.min.js"></script>
+		<script src="https://unpkg.com/@microsoft/customvision-tfjs"></script>
+	</head>
+	<body onload="init();">
+		<div style="text-align:left;"><h3>桌上物品辨識</h3></div>
+		<video id="webcam" autoplay playsinline height="320" width="240"></video>
+		<div style="text-align:left;"><h3 id="result_view" style="background-color:black;color:white" /></div>
+		<canvas style="display:none;" id="canvas" class="d-none"></canvas>
+		<audio style="display:none;" id="snapSound" preload = "auto"></audio>		
+		<input style="display:none;" id="image_file" type="file" onChange="load(event)" />
+		<img style="display:none;" id="image_view" onLoad="run()" />
+		<!--
+		<div id="result_view" />
+		-->
+		<script>
+			var webcamElement;
+			var canvasElement;
+			var snapSoundElement;
+			var webcam;
+			var labels;
+			
+			function init() {
+				webcamElement = document.getElementById('webcam');
+				canvasElement = document.getElementById('canvas');
+				snapSoundElement = document.getElementById('snapSound');				
+				webcam = new Webcam(webcamElement, 'environment', canvasElement, snapSoundElement);
+				webcam.start()
+				   .then(result =>{
+					  console.log("webcam started");
+					  snap();
+				   })
+				   .catch(err => {
+					   console.log(err);
+				   });
+				   
+				fetch('desktop-az_model/labels.txt').then(function(response) {
+					return response.text().then(function(text) {
+						console.log(text);
+						labels = text.split("\n");
+						console.log(labels);
+					});
+				  });
+			}
+			
+			function snap() {
+				let picture = webcam.snap();
+				const image_view = document.getElementById('image_view');
+				image_view.src = picture;
+			}
+			
+			function load(event) {
+				const reader = new FileReader();
+				reader.onload = async function(e) {
+					const image_view = document.getElementById('image_view');
+					image_view.src = e.target.result;
+				};
+				reader.readAsDataURL(event.target.files[0]);
+			}
+
+			async function run() {
+				const model = new cvstfjs.ClassificationModel();
+				await model.loadModelAsync('desktop-az_model/model.json');
+				const result = await model.executeAsync(document.getElementById('image_view'));
+				// document.getElementById('result_view').innerHTML = result[0].map((x, i) => `Label ${i}: ${x}`).join("<br />");
+				console.log(result);
+				index = indexOfMax(result[0]);
+				console.log(labels[index]);
+				document.getElementById('result_view').innerHTML = labels[index];
+				snap();
+			}
+			
+			function indexOfMax(arr) {
+				if (arr.length === 0) {
+					return -1;
+				}
+
+				var max = arr[0];
+				var maxIndex = 0;
+
+				for (var i = 1; i < arr.length; i++) {
+					if (arr[i] > max) {
+						maxIndex = i;
+						max = arr[i];
+					}
+				}
+
+				return maxIndex;
+			}
+		</script>
+	</body>
+</html>
